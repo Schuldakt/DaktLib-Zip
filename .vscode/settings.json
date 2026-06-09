@@ -1,0 +1,22 @@
+{
+  "vcpkg.target.defaultTriplet": "x64-windows",
+  "vcpkg.target.hostTriplet": "-windows",
+  "vcpkg.target.useStaticLib": false,
+  "cmake.configureArgs": ["-DVCPKG_TARGET_TRIPLET=x64-windows"],
+  "cSpell.words": [
+    "capi",
+    "Dakt",
+    "DAKTLIB",
+    "hclen",
+    "hdist",
+    "hlit",
+    "icompressor",
+    "INCLUDEDIR",
+    "libzstd",
+    "Oodle",
+    "proba",
+    "xmem",
+    "Zdakt",
+    "zstd"
+  ]
+}

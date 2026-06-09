@@ -1,0 +1,13 @@
+InheritParentConfig: true
+
+Checks:
+  - -readability-identifier-length,-readability-convert-member-functions-to-static,-cppcoreguidelines-prefer-member-initializer
+  - -readability-magic-numbers
+  - -bugprone-branch-clone
+  - -cppcoreguidelines-owning-memory
+  - -bugprone-implicit-widening-of-multiplication-result
+  - -cppcoreguidelines-special-member-functions
+  - -cppcoreguidelines-pro-type-const-cast
+  - -cppcoreguidelines-narrowing-conversions
+  - -bugprone-narrowing-conversions
+  - -readability-function-cognitive-complexity

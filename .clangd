@@ -1,0 +1,11 @@
+---
+Index:
+  Background: Build
+  StandardLibrary: true
+CompileFlags:
+  Add: "-std=c++23"
+
+Diagnostics:
+  UnusedIncludes: None
+  Suppress:
+    - "-Wpragma-system-header-outside-header"

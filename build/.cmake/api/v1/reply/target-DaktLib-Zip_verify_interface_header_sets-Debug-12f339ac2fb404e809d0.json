@@ -1,0 +1,227 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "CMakeFiles/DaktLib-Zip_verify_interface_header_sets.dir/./DaktLib-Zip_verify_interface_header_sets/zip/capi/zip_exports.h.cxx.obj"
+		},
+		{
+			"path" : "CMakeFiles/DaktLib-Zip_verify_interface_header_sets.dir/./DaktLib-Zip_verify_interface_header_sets/zip/interfaces/decompressor.h.cxx.obj"
+		},
+		{
+			"path" : "CMakeFiles/DaktLib-Zip_verify_interface_header_sets.dir/./DaktLib-Zip_verify_interface_header_sets/zip/interfaces/icompressor.h.cxx.obj"
+		},
+		{
+			"path" : "CMakeFiles/DaktLib-Zip_verify_interface_header_sets.dir/./DaktLib-Zip_verify_interface_header_sets/zip/methods/lz4lite.h.cxx.obj"
+		},
+		{
+			"path" : "CMakeFiles/DaktLib-Zip_verify_interface_header_sets.dir/./DaktLib-Zip_verify_interface_header_sets/zip/methods/lzx.h.cxx.obj"
+		},
+		{
+			"path" : "CMakeFiles/DaktLib-Zip_verify_interface_header_sets.dir/./DaktLib-Zip_verify_interface_header_sets/zip/methods/store.h.cxx.obj"
+		},
+		{
+			"path" : "CMakeFiles/DaktLib-Zip_verify_interface_header_sets.dir/./DaktLib-Zip_verify_interface_header_sets/zip/methods/xmem.h.cxx.obj"
+		},
+		{
+			"path" : "CMakeFiles/DaktLib-Zip_verify_interface_header_sets.dir/./DaktLib-Zip_verify_interface_header_sets/zip/methods/zlib.h.cxx.obj"
+		},
+		{
+			"path" : "CMakeFiles/DaktLib-Zip_verify_interface_header_sets.dir/./DaktLib-Zip_verify_interface_header_sets/zip/methods/zstd.h.cxx.obj"
+		},
+		{
+			"path" : "CMakeFiles/DaktLib-Zip_verify_interface_header_sets.dir/./DaktLib-Zip_verify_interface_header_sets/zip/registrar/compression_registry.h.cxx.obj"
+		},
+		{
+			"path" : "CMakeFiles/DaktLib-Zip_verify_interface_header_sets.dir/./DaktLib-Zip_verify_interface_header_sets/compressor.cxx.obj"
+		}
+	],
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"codemodelVersion" : 
+	{
+		"major" : 2,
+		"minor" : 10
+	},
+	"compileDependencies" : 
+	[
+		{
+			"backtrace" : 0,
+			"id" : "DaktLib-Zip::@6890427a1f51a3e7e1df"
+		}
+	],
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS /EHsc /Ob0 /Od -clang:-std=c++23 -MDd -RTC1 -Zi"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"define" : "_MBCS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 0,
+					"path" : "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/include/dakt/zip"
+				},
+				{
+					"backtrace" : 0,
+					"path" : "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/include/dakt"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					0
+				],
+				"standard" : "23"
+			},
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 0,
+			"id" : "DaktLib-Zip::@6890427a1f51a3e7e1df"
+		}
+	],
+	"id" : "DaktLib-Zip_verify_interface_header_sets::@6890427a1f51a3e7e1df",
+	"linkLibraries" : 
+	[
+		{
+			"backtrace" : 0,
+			"id" : "DaktLib-Zip::@6890427a1f51a3e7e1df"
+		}
+	],
+	"name" : "DaktLib-Zip_verify_interface_header_sets",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 0,
+			"compileGroupIndex" : 0,
+			"path" : "build/DaktLib-Zip_verify_interface_header_sets/zip/capi/zip_exports.h.cxx",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"compileGroupIndex" : 0,
+			"path" : "build/DaktLib-Zip_verify_interface_header_sets/zip/interfaces/decompressor.h.cxx",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"compileGroupIndex" : 0,
+			"path" : "build/DaktLib-Zip_verify_interface_header_sets/zip/interfaces/icompressor.h.cxx",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"compileGroupIndex" : 0,
+			"path" : "build/DaktLib-Zip_verify_interface_header_sets/zip/methods/lz4lite.h.cxx",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"compileGroupIndex" : 0,
+			"path" : "build/DaktLib-Zip_verify_interface_header_sets/zip/methods/lzx.h.cxx",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"compileGroupIndex" : 0,
+			"path" : "build/DaktLib-Zip_verify_interface_header_sets/zip/methods/store.h.cxx",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"compileGroupIndex" : 0,
+			"path" : "build/DaktLib-Zip_verify_interface_header_sets/zip/methods/xmem.h.cxx",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"compileGroupIndex" : 0,
+			"path" : "build/DaktLib-Zip_verify_interface_header_sets/zip/methods/zlib.h.cxx",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"compileGroupIndex" : 0,
+			"path" : "build/DaktLib-Zip_verify_interface_header_sets/zip/methods/zstd.h.cxx",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"compileGroupIndex" : 0,
+			"path" : "build/DaktLib-Zip_verify_interface_header_sets/zip/registrar/compression_registry.h.cxx",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"compileGroupIndex" : 0,
+			"path" : "build/DaktLib-Zip_verify_interface_header_sets/compressor.cxx",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "OBJECT_LIBRARY"
+}

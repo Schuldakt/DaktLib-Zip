@@ -1,0 +1,116 @@
+[
+{
+  "directory": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build",
+  "command": "C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe  /nologo -TP -D_MBCS -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt\\zip -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od -clang:-std=c++23 -MDd -RTC1 -Zi /FoCMakeFiles\\DaktLib-Zip.dir\\src\\interfaces\\decompressor.cxx.obj /FdCMakeFiles\\DaktLib-Zip.dir\\DaktLib-Zip.pdb -c -- C:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\src\\interfaces\\decompressor.cxx",
+  "file": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/src/interfaces/decompressor.cxx",
+  "output": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/CMakeFiles/DaktLib-Zip.dir/src/interfaces/decompressor.cxx.obj"
+},
+{
+  "directory": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build",
+  "command": "C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe  /nologo -TP -D_MBCS -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt\\zip -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od -clang:-std=c++23 -MDd -RTC1 -Zi /FoCMakeFiles\\DaktLib-Zip.dir\\src\\methods\\lz4lite.cxx.obj /FdCMakeFiles\\DaktLib-Zip.dir\\DaktLib-Zip.pdb -c -- C:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\src\\methods\\lz4lite.cxx",
+  "file": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/src/methods/lz4lite.cxx",
+  "output": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/CMakeFiles/DaktLib-Zip.dir/src/methods/lz4lite.cxx.obj"
+},
+{
+  "directory": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build",
+  "command": "C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe  /nologo -TP -D_MBCS -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt\\zip -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od -clang:-std=c++23 -MDd -RTC1 -Zi /FoCMakeFiles\\DaktLib-Zip.dir\\src\\methods\\lzx.cxx.obj /FdCMakeFiles\\DaktLib-Zip.dir\\DaktLib-Zip.pdb -c -- C:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\src\\methods\\lzx.cxx",
+  "file": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/src/methods/lzx.cxx",
+  "output": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/CMakeFiles/DaktLib-Zip.dir/src/methods/lzx.cxx.obj"
+},
+{
+  "directory": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build",
+  "command": "C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe  /nologo -TP -D_MBCS -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt\\zip -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od -clang:-std=c++23 -MDd -RTC1 -Zi /FoCMakeFiles\\DaktLib-Zip.dir\\src\\methods\\store.cxx.obj /FdCMakeFiles\\DaktLib-Zip.dir\\DaktLib-Zip.pdb -c -- C:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\src\\methods\\store.cxx",
+  "file": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/src/methods/store.cxx",
+  "output": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/CMakeFiles/DaktLib-Zip.dir/src/methods/store.cxx.obj"
+},
+{
+  "directory": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build",
+  "command": "C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe  /nologo -TP -D_MBCS -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt\\zip -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od -clang:-std=c++23 -MDd -RTC1 -Zi /FoCMakeFiles\\DaktLib-Zip.dir\\src\\methods\\xmem.cxx.obj /FdCMakeFiles\\DaktLib-Zip.dir\\DaktLib-Zip.pdb -c -- C:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\src\\methods\\xmem.cxx",
+  "file": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/src/methods/xmem.cxx",
+  "output": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/CMakeFiles/DaktLib-Zip.dir/src/methods/xmem.cxx.obj"
+},
+{
+  "directory": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build",
+  "command": "C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe  /nologo -TP -D_MBCS -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt\\zip -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od -clang:-std=c++23 -MDd -RTC1 -Zi /FoCMakeFiles\\DaktLib-Zip.dir\\src\\methods\\zlib.cxx.obj /FdCMakeFiles\\DaktLib-Zip.dir\\DaktLib-Zip.pdb -c -- C:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\src\\methods\\zlib.cxx",
+  "file": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/src/methods/zlib.cxx",
+  "output": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/CMakeFiles/DaktLib-Zip.dir/src/methods/zlib.cxx.obj"
+},
+{
+  "directory": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build",
+  "command": "C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe  /nologo -TP -D_MBCS -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt\\zip -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od -clang:-std=c++23 -MDd -RTC1 -Zi /FoCMakeFiles\\DaktLib-Zip.dir\\src\\methods\\zstd.cxx.obj /FdCMakeFiles\\DaktLib-Zip.dir\\DaktLib-Zip.pdb -c -- C:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\src\\methods\\zstd.cxx",
+  "file": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/src/methods/zstd.cxx",
+  "output": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/CMakeFiles/DaktLib-Zip.dir/src/methods/zstd.cxx.obj"
+},
+{
+  "directory": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build",
+  "command": "C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe  /nologo -TP -D_MBCS -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt\\zip -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od -clang:-std=c++23 -MDd -RTC1 -Zi /FoCMakeFiles\\DaktLib-Zip.dir\\src\\registrar\\compression_registry.cxx.obj /FdCMakeFiles\\DaktLib-Zip.dir\\DaktLib-Zip.pdb -c -- C:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\src\\registrar\\compression_registry.cxx",
+  "file": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/src/registrar/compression_registry.cxx",
+  "output": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/CMakeFiles/DaktLib-Zip.dir/src/registrar/compression_registry.cxx.obj"
+},
+{
+  "directory": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build",
+  "command": "C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe  /nologo -TP -D_MBCS -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt\\zip -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od -clang:-std=c++23 -MDd -RTC1 -Zi /FoCMakeFiles\\DaktLib-Zip_verify_interface_header_sets.dir\\DaktLib-Zip_verify_interface_header_sets\\zip\\capi\\zip_exports.h.cxx.obj /FdCMakeFiles\\DaktLib-Zip_verify_interface_header_sets.dir\\ -c -- C:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\build\\DaktLib-Zip_verify_interface_header_sets\\zip\\capi\\zip_exports.h.cxx",
+  "file": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/DaktLib-Zip_verify_interface_header_sets/zip/capi/zip_exports.h.cxx",
+  "output": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/CMakeFiles/DaktLib-Zip_verify_interface_header_sets.dir/DaktLib-Zip_verify_interface_header_sets/zip/capi/zip_exports.h.cxx.obj"
+},
+{
+  "directory": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build",
+  "command": "C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe  /nologo -TP -D_MBCS -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt\\zip -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od -clang:-std=c++23 -MDd -RTC1 -Zi /FoCMakeFiles\\DaktLib-Zip_verify_interface_header_sets.dir\\DaktLib-Zip_verify_interface_header_sets\\zip\\interfaces\\decompressor.h.cxx.obj /FdCMakeFiles\\DaktLib-Zip_verify_interface_header_sets.dir\\ -c -- C:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\build\\DaktLib-Zip_verify_interface_header_sets\\zip\\interfaces\\decompressor.h.cxx",
+  "file": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/DaktLib-Zip_verify_interface_header_sets/zip/interfaces/decompressor.h.cxx",
+  "output": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/CMakeFiles/DaktLib-Zip_verify_interface_header_sets.dir/DaktLib-Zip_verify_interface_header_sets/zip/interfaces/decompressor.h.cxx.obj"
+},
+{
+  "directory": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build",
+  "command": "C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe  /nologo -TP -D_MBCS -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt\\zip -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od -clang:-std=c++23 -MDd -RTC1 -Zi /FoCMakeFiles\\DaktLib-Zip_verify_interface_header_sets.dir\\DaktLib-Zip_verify_interface_header_sets\\zip\\interfaces\\icompressor.h.cxx.obj /FdCMakeFiles\\DaktLib-Zip_verify_interface_header_sets.dir\\ -c -- C:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\build\\DaktLib-Zip_verify_interface_header_sets\\zip\\interfaces\\icompressor.h.cxx",
+  "file": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/DaktLib-Zip_verify_interface_header_sets/zip/interfaces/icompressor.h.cxx",
+  "output": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/CMakeFiles/DaktLib-Zip_verify_interface_header_sets.dir/DaktLib-Zip_verify_interface_header_sets/zip/interfaces/icompressor.h.cxx.obj"
+},
+{
+  "directory": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build",
+  "command": "C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe  /nologo -TP -D_MBCS -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt\\zip -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od -clang:-std=c++23 -MDd -RTC1 -Zi /FoCMakeFiles\\DaktLib-Zip_verify_interface_header_sets.dir\\DaktLib-Zip_verify_interface_header_sets\\zip\\methods\\lz4lite.h.cxx.obj /FdCMakeFiles\\DaktLib-Zip_verify_interface_header_sets.dir\\ -c -- C:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\build\\DaktLib-Zip_verify_interface_header_sets\\zip\\methods\\lz4lite.h.cxx",
+  "file": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/DaktLib-Zip_verify_interface_header_sets/zip/methods/lz4lite.h.cxx",
+  "output": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/CMakeFiles/DaktLib-Zip_verify_interface_header_sets.dir/DaktLib-Zip_verify_interface_header_sets/zip/methods/lz4lite.h.cxx.obj"
+},
+{
+  "directory": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build",
+  "command": "C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe  /nologo -TP -D_MBCS -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt\\zip -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od -clang:-std=c++23 -MDd -RTC1 -Zi /FoCMakeFiles\\DaktLib-Zip_verify_interface_header_sets.dir\\DaktLib-Zip_verify_interface_header_sets\\zip\\methods\\lzx.h.cxx.obj /FdCMakeFiles\\DaktLib-Zip_verify_interface_header_sets.dir\\ -c -- C:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\build\\DaktLib-Zip_verify_interface_header_sets\\zip\\methods\\lzx.h.cxx",
+  "file": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/DaktLib-Zip_verify_interface_header_sets/zip/methods/lzx.h.cxx",
+  "output": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/CMakeFiles/DaktLib-Zip_verify_interface_header_sets.dir/DaktLib-Zip_verify_interface_header_sets/zip/methods/lzx.h.cxx.obj"
+},
+{
+  "directory": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build",
+  "command": "C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe  /nologo -TP -D_MBCS -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt\\zip -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od -clang:-std=c++23 -MDd -RTC1 -Zi /FoCMakeFiles\\DaktLib-Zip_verify_interface_header_sets.dir\\DaktLib-Zip_verify_interface_header_sets\\zip\\methods\\store.h.cxx.obj /FdCMakeFiles\\DaktLib-Zip_verify_interface_header_sets.dir\\ -c -- C:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\build\\DaktLib-Zip_verify_interface_header_sets\\zip\\methods\\store.h.cxx",
+  "file": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/DaktLib-Zip_verify_interface_header_sets/zip/methods/store.h.cxx",
+  "output": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/CMakeFiles/DaktLib-Zip_verify_interface_header_sets.dir/DaktLib-Zip_verify_interface_header_sets/zip/methods/store.h.cxx.obj"
+},
+{
+  "directory": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build",
+  "command": "C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe  /nologo -TP -D_MBCS -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt\\zip -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od -clang:-std=c++23 -MDd -RTC1 -Zi /FoCMakeFiles\\DaktLib-Zip_verify_interface_header_sets.dir\\DaktLib-Zip_verify_interface_header_sets\\zip\\methods\\xmem.h.cxx.obj /FdCMakeFiles\\DaktLib-Zip_verify_interface_header_sets.dir\\ -c -- C:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\build\\DaktLib-Zip_verify_interface_header_sets\\zip\\methods\\xmem.h.cxx",
+  "file": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/DaktLib-Zip_verify_interface_header_sets/zip/methods/xmem.h.cxx",
+  "output": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/CMakeFiles/DaktLib-Zip_verify_interface_header_sets.dir/DaktLib-Zip_verify_interface_header_sets/zip/methods/xmem.h.cxx.obj"
+},
+{
+  "directory": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build",
+  "command": "C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe  /nologo -TP -D_MBCS -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt\\zip -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od -clang:-std=c++23 -MDd -RTC1 -Zi /FoCMakeFiles\\DaktLib-Zip_verify_interface_header_sets.dir\\DaktLib-Zip_verify_interface_header_sets\\zip\\methods\\zlib.h.cxx.obj /FdCMakeFiles\\DaktLib-Zip_verify_interface_header_sets.dir\\ -c -- C:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\build\\DaktLib-Zip_verify_interface_header_sets\\zip\\methods\\zlib.h.cxx",
+  "file": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/DaktLib-Zip_verify_interface_header_sets/zip/methods/zlib.h.cxx",
+  "output": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/CMakeFiles/DaktLib-Zip_verify_interface_header_sets.dir/DaktLib-Zip_verify_interface_header_sets/zip/methods/zlib.h.cxx.obj"
+},
+{
+  "directory": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build",
+  "command": "C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe  /nologo -TP -D_MBCS -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt\\zip -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od -clang:-std=c++23 -MDd -RTC1 -Zi /FoCMakeFiles\\DaktLib-Zip_verify_interface_header_sets.dir\\DaktLib-Zip_verify_interface_header_sets\\zip\\methods\\zstd.h.cxx.obj /FdCMakeFiles\\DaktLib-Zip_verify_interface_header_sets.dir\\ -c -- C:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\build\\DaktLib-Zip_verify_interface_header_sets\\zip\\methods\\zstd.h.cxx",
+  "file": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/DaktLib-Zip_verify_interface_header_sets/zip/methods/zstd.h.cxx",
+  "output": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/CMakeFiles/DaktLib-Zip_verify_interface_header_sets.dir/DaktLib-Zip_verify_interface_header_sets/zip/methods/zstd.h.cxx.obj"
+},
+{
+  "directory": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build",
+  "command": "C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe  /nologo -TP -D_MBCS -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt\\zip -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od -clang:-std=c++23 -MDd -RTC1 -Zi /FoCMakeFiles\\DaktLib-Zip_verify_interface_header_sets.dir\\DaktLib-Zip_verify_interface_header_sets\\zip\\registrar\\compression_registry.h.cxx.obj /FdCMakeFiles\\DaktLib-Zip_verify_interface_header_sets.dir\\ -c -- C:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\build\\DaktLib-Zip_verify_interface_header_sets\\zip\\registrar\\compression_registry.h.cxx",
+  "file": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/DaktLib-Zip_verify_interface_header_sets/zip/registrar/compression_registry.h.cxx",
+  "output": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/CMakeFiles/DaktLib-Zip_verify_interface_header_sets.dir/DaktLib-Zip_verify_interface_header_sets/zip/registrar/compression_registry.h.cxx.obj"
+},
+{
+  "directory": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build",
+  "command": "C:\\PROGRA~1\\LLVM\\bin\\clang-cl.exe  /nologo -TP -D_MBCS -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt\\zip -IC:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\include\\dakt /DWIN32 /D_WINDOWS /EHsc /Ob0 /Od -clang:-std=c++23 -MDd -RTC1 -Zi /FoCMakeFiles\\DaktLib-Zip_verify_interface_header_sets.dir\\DaktLib-Zip_verify_interface_header_sets\\compressor.cxx.obj /FdCMakeFiles\\DaktLib-Zip_verify_interface_header_sets.dir\\ -c -- C:\\Users\\pratt\\Desktop\\Repos\\DaktLib\\DaktLib-Zip\\build\\DaktLib-Zip_verify_interface_header_sets\\compressor.cxx",
+  "file": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/DaktLib-Zip_verify_interface_header_sets/compressor.cxx",
+  "output": "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/CMakeFiles/DaktLib-Zip_verify_interface_header_sets.dir/DaktLib-Zip_verify_interface_header_sets/compressor.cxx.obj"
+}
+]

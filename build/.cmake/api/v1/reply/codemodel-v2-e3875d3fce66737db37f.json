@@ -1,0 +1,88 @@
+{
+	"configurations" : 
+	[
+		{
+			"abstractTargets" : [],
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-f040eec181a89de70dbe.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.3"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "DaktLib-Zip",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "DaktLib-Zip::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-DaktLib-Zip-Debug-76d13165f691c49322ee.json",
+					"name" : "DaktLib-Zip",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "DaktLib-Zip_verify_interface_header_sets::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-DaktLib-Zip_verify_interface_header_sets-Debug-12f339ac2fb404e809d0.json",
+					"name" : "DaktLib-Zip_verify_interface_header_sets",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "all_verify_header_sets::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-all_verify_header_sets-Debug-1c80824feb2e2417490a.json",
+					"name" : "all_verify_header_sets",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "all_verify_interface_header_sets::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-all_verify_interface_header_sets-Debug-bc39674f972c21464221.json",
+					"name" : "all_verify_interface_header_sets",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build",
+		"source" : "C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 10
+	}
+}
