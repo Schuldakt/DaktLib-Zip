@@ -21,6 +21,8 @@ target_sources(DaktLib-Zip
 
         src/registrar/compression_registry.cxx
 
+        src/capi/zip_exports.cxx
+
     PUBLIC
         FILE_SET exposed_headers
         TYPE HEADERS
@@ -52,5 +54,18 @@ target_link_libraries(DaktLib-Zip PUBLIC
 
 set_target_properties(DaktLib-Zip PROPERTIES
     VERIFY_INTERFACE_HEADER_SETS ON
+)
+
+enable_testing()
+
+add_executable(DaktLib-Zip-Tests
+    tests/zip_tests.cxx
+)
+
+target_link_libraries(DaktLib-Zip-Tests PRIVATE DaktLib-Zip)
+
+add_test(NAME ZipPipelineTests COMMAND 
+    DaktLib-Zip-Tests
+    dakt::Core
 )
 

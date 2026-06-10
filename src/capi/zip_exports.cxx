@@ -18,7 +18,7 @@ extern "C"
 { // NOLINTBEGIN(modernize-use-trailing-return-type)
 #endif
 
-  DAKTLIB_API int zipCreateCompressionStream(DataStream* inStream, int compressionType, DataStream* outStream) {
+  DAKTLIB_API int zipCreateDecompressionStream(DataStream* inStream, int compressionType, DataStream* outStream) {
     if ((inStream == nullptr) || (outStream == nullptr)) { return -1; }
 
     // Safely cast the raw C integer to your modern enum
