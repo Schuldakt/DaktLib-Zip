@@ -9,35 +9,44 @@
 #include <config>
 
 #include <zip/methods/zstd.h>
+#include <zip/registrar/compression_registry.h>
 
 DAKTLIB_BEGIN_NAMESPACE_ZIP
 
 // --- 1. Bitstream Reader ---
 namespace detail {
 
-class ZstdBitReader {
-    const uint8t* m_ptr;
-    const uint8t* m_start;
-    uint64t       m_bit_container;
-    uint8t        m_bits_consumed;
+BitStreamReader::BitStreamReader(const uint8t* start, usize size)
+    : m_ptr(start + size)
+    , m_start(start)
+    , m_bit_container(0)
+    , m_bits_consumed(64) { // Start fully consumed so first getBits triggers a fill
+  if (size > 0) {
+    // The sentinel byte (last byte of stream) encodes how many padding bits
+    // are at the top. Find the highest set bit to locate the actual stream start.
+    uint8t last_byte = *(m_ptr - 1);
+    int    padding   = 7 - (63 - __builtin_clzll(static_cast<uint64t>(last_byte)));
+    m_bits_consumed  = static_cast<uint8t>(padding);
+    fill();
+  }
+}
 
-    void          fill() {
-      while (m_bits_consumed >= 8 && m_ptr > m_start) {
-        m_ptr--;
-        m_bit_container  = (m_bit_container << 8) | *m_ptr;
-        m_bits_consumed -= 8;
-      }
-    }
+auto BitStreamReader::getBits(uint8t bits) const -> uint64t {
+  return (m_bit_container >> (64 - m_bits_consumed)) & ((1ULL << bits) - 1);
+}
 
-    [[nodiscard]] auto getBits(uint8t bits) const -> uint64t {
-      return (m_bit_container >> (64 - m_bits_consumed - bits)) & ((1ULL << bits) - 1);
-    }
+void BitStreamReader::consumeBits(uint8t bits) {
+  m_bits_consumed += bits;
+  if (m_bits_consumed >= 32) { fill(); }
+}
 
-    void consumeBits(uint8t bits) {
-      m_bits_consumed += bits;
-      if (m_bits_consumed >= 32) { fill(); }
-    }
-};
+void BitStreamReader::fill() {
+  while (m_bits_consumed >= 8 && m_ptr > m_start) {
+    --m_ptr;
+    m_bit_container  = (m_bit_container >> 8) | (static_cast<uint64t>(*m_ptr) << 56);
+    m_bits_consumed -= 8;
+  }
+}
 
 // --- 2. Decoder State Tables ---
 auto detail::FSETable::buildFromWeights(const uint8t* data, usize size) -> usize {
@@ -485,10 +494,9 @@ auto decodeCompressedBlock(
     // 4. Execute Match Copy (sliding window)
     if (offset == 0 || offset > outputBuffer.size()) { return false; }
 
-    usize match_start = outputBuffer.size() - offset;
-    for (usize m = 0; m < match_length; ++m) {
-      outputBuffer.push_back(outputBuffer[match_start + m]); // byte-by-byte for overlapping matches
-    }
+    outputBuffer.reserve(outputBuffer.size() + match_length);
+    const usize match_start = outputBuffer.size() - offset;
+    for (usize m = 0; m < match_length; ++m) { outputBuffer.push_back(outputBuffer[match_start + m]); }
   }
 
   // Copy any remaining literals
@@ -541,10 +549,18 @@ auto parseFrameHeader(const uint8t*& src, const uint8t* srcEnd, ZstdFrameHeader&
 
     header.frame_content_size  = src[0] | (src[1] << 8) | (src[2] << 16) | (src[3] << 24);
     src                       += 4;
-  } else {
+  } else { // fcs_field_size == 3 -> 8-byte FCS
     if (src + 8 > srcEnd) { return false; }
-    // 8-byte size parsing
-    src += 8;
+    // Read lower 4 bytes; upper 4 are only relevant for >4GB frames
+    header.frame_content_size  = static_cast<uint64t>(src[0])
+                                 | (static_cast<uint64t>(src[1]) << 8)
+                                 | (static_cast<uint64t>(src[2]) << 16)
+                                 | (static_cast<uint64t>(src[3]) << 24)
+                                 | (static_cast<uint64t>(src[4]) << 32)
+                                 | (static_cast<uint64t>(src[5]) << 40)
+                                 | (static_cast<uint64t>(src[6]) << 48)
+                                 | (static_cast<uint64t>(src[7]) << 56);
+    src                       += 8;
   }
 
   return true;
@@ -554,8 +570,12 @@ auto parseFrameHeader(const uint8t*& src, const uint8t* srcEnd, ZstdFrameHeader&
 
 using namespace detail;
 
-DAKTLIB_API inline auto method() noexcept -> dakt::string_view {
-  return "Zstd";
+auto Zstd::name() const noexcept -> dakt::string_view {
+  return "Zstd"; // Must match toString(CompressionMethod::Zstd) in detector.h
+}
+
+auto Zstd::method() const noexcept -> CompressionMethod {
+  return CompressionMethod::Zstd;
 }
 
 // --- 4. Main Decompression Entry ---
@@ -626,8 +646,19 @@ DAKTLIB_API inline auto Zstd::inflateChunk(dakt::span<const uint8t> compressedDa
   }
 
   // Optional Checksum (last 4 bytes) ignored for simplicity
-  return 1;
+  return outputBuffer.size();
 }
+
+auto Zstd::deflateChunk(dakt::span<const uint8t> /*rawData*/, dakt::vector<uint8t>& /*outputBuffer*/) -> usize {
+  // Zstd encoding requires the full zstd encoder state machine.
+  // Stubbed until the P4K write path is needed.
+  return 0;
+}
+
+[[maybe_unused]] const bool s_zstd_registered = [] -> bool {
+  CompressionRegistry::instance().registerModule(dakt::make_unique<Zstd>());
+  return true;
+}();
 
 DAKTLIB_END_NAMESPACE_ZIP
 

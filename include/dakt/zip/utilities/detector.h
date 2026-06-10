@@ -19,7 +19,7 @@ DAKTLIB_BEGIN_NAMESPACE_ZIP
 
 enum class CompressionMethod : uint16t {
   Store   = 0,
-  Deflate = 8,
+  Zlib    = 8,
   XMem    = 14,
   Lzx     = 28,
   Lz4     = 64,
@@ -29,13 +29,13 @@ enum class CompressionMethod : uint16t {
 
 [[nodiscard]] constexpr auto toString(CompressionMethod method) noexcept -> dakt::string_view {
   switch (method) {
-    case CompressionMethod::Store  : return "Store";
-    case CompressionMethod::Deflate: return "Deflate (Zlib)";
-    case CompressionMethod::XMem   : return "XMem";
-    case CompressionMethod::Lzx    : return "Lzx";
-    case CompressionMethod::Lz4    : return "Lz4";
-    case CompressionMethod::Zstd   : return "Zstd";
-    default                        : return "Unknown";
+    case CompressionMethod::Store: return "Store";
+    case CompressionMethod::Zlib : return "Zlib";
+    case CompressionMethod::XMem : return "XMem";
+    case CompressionMethod::Lzx  : return "Lzx";
+    case CompressionMethod::Lz4  : return "Lz4";
+    case CompressionMethod::Zstd : return "Zstd";
+    default                      : return "Unknown";
   }
 }
 
@@ -57,7 +57,7 @@ enum class CompressionMethod : uint16t {
     if (magicBytes[0]
         == 0x78
         && (magicBytes[1] == 0x01 || magicBytes[1] == 0x5E || magicBytes[1] == 0x9C || magicBytes[1] == 0xDA)) {
-      return CompressionMethod::Deflate;
+      return CompressionMethod::Zlib;
     }
   }
 

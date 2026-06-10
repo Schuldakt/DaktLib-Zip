@@ -9,6 +9,7 @@
 #include <config>
 
 #include <zip/methods/lzx.h>
+#include <zip/registrar/compression_registry.h>
 #include <zip/utilities/bit_stream.h>
 
 #include <cstring>
@@ -42,6 +43,10 @@ readTreeLengths(detail::BitReader& reader, detail::HuffmanTable<20, 16>& preTree
       while (run-- > 0 && i < targetLengths.size()) { targetLengths[i++] = value; }
     }
   }
+}
+
+auto Lzx::name() const noexcept -> dakt::string_view {
+  return "Lzx"; // Must match toString(CompressionMethod::Zstd) in detector.h
 }
 
 auto Lzx::method() const noexcept -> CompressionMethod {
@@ -177,7 +182,7 @@ auto Lzx::inflateChunk(dakt::span<const uint8t> compressedData, dakt::vector<uin
     } else if (block_type == 3) { // Uncompressed Block
       reader.alignTo16BitBoundary();
 
-                                  // r0, r1, r2 are preserved, but we update them with actual byte offsets if needed
+      // r0, r1, r2 are preserved, but we update them with actual byte offsets if needed
       // r0 = reader.readbits(32); r1 = reader.readBits(32); r2 = reader.readBits(32); (Depends on specific CAB
       // implementation)
 
@@ -192,6 +197,17 @@ auto Lzx::inflateChunk(dakt::span<const uint8t> compressedData, dakt::vector<uin
 
   return outputBuffer.size() - initial_size;
 }
+
+auto Lzx::deflateChunk(dakt::span<const uint8t> /*rawData*/, dakt::vector<uint8t>& /*outputBuffer*/) -> usize {
+  // Lzx encoding requires the full lzx encoder state machine.
+  // Stubbed until the P4K write path is needed.
+  return 0;
+}
+
+[[maybe_unused]] const bool s_lzx_registered = [] -> bool {
+  CompressionRegistry::instance().registerModule(dakt::make_unique<Lzx>());
+  return true;
+}();
 
 DAKTLIB_END_NAMESPACE_ZIP
 

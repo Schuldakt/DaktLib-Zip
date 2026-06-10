@@ -9,8 +9,13 @@
 #include <config>
 
 #include <zip/methods/store.h>
+#include <zip/registrar/compression_registry.h>
 
 DAKTLIB_BEGIN_NAMESPACE_ZIP
+
+auto Store::name() const noexcept -> dakt::string_view {
+  return "Store"; // Must match toString(CompressionMethod::Zstd) in detector.h
+}
 
 auto Store::method() const noexcept -> CompressionMethod {
   return CompressionMethod::Store;
@@ -41,6 +46,11 @@ auto Store::deflateChunk(dakt::span<const uint8t> rawData, dakt::vector<uint8t>&
 
   return data_size;
 }
+
+[[maybe_unused]] const bool s_store_registered = [] -> bool {
+  CompressionRegistry::instance().registerModule(dakt::make_unique<Store>());
+  return true;
+}();
 
 DAKTLIB_END_NAMESPACE_ZIP
 

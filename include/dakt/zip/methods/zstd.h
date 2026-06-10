@@ -19,9 +19,13 @@ DAKTLIB_BEGIN_NAMESPACE_ZIP
 
 class Zstd : public ICompressor {
   public:
+    [[nodiscard]] auto name() const noexcept -> dakt::string_view override;
+
     [[nodiscard]] auto method() const noexcept -> CompressionMethod override;
 
     auto inflateChunk(dakt::span<const uint8t> compressedData, dakt::vector<uint8t>& outputBuffer) -> usize override;
+
+    auto deflateChunk(dakt::span<const uint8t> rawData, dakt::vector<uint8t>& outputBuffer) -> usize override;
 };
 
 namespace detail {
@@ -52,7 +56,7 @@ struct FSEDecodeState {
 };
 
 struct FSETable {
-    uint8t                       accuracy_log;
+    uint8t                       accuracy_log = 0;
     dakt::vector<FSEDecodeState> states;
 
     uint16_t                     current_state = 0;
@@ -89,8 +93,15 @@ struct ZstdFrameHeader {
 
 // --- 4. Internal Functions ---
 auto parseFrameHeader(const uint8t*& src, const uint8t* srcEnd, ZstdFrameHeader& header) -> bool;
-auto decodeCompressedBlock(const uint8t* src, usize blockSize, dakt::vector<uint8t>& output, HuffmanTree& hTree)
-  -> bool;
+auto decodeCompressedBlock(
+  const uint8t*         src,
+  usize                 blockSize,
+  dakt::vector<uint8t>& output,
+  HuffmanTree&          hTree,
+  FSETable&             llTable,
+  FSETable&             ofTable,
+  FSETable&             mlTable
+) -> bool;
 
 } // namespace detail
 

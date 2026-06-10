@@ -26,7 +26,7 @@ class Lz4 : public ICompressor {
 
     auto inflateChunk(dakt::span<const uint8t> compressedData, dakt::vector<uint8t>& outputBuffer) -> usize override;
 
-    auto deflateChunk(dakt::span<const uint8t> compressedData, dakt::vector<uint8t>& outputBuffer) -> usize override;
+    auto deflateChunk(dakt::span<const uint8t> rawData, dakt::vector<uint8t>& outputBuffer) -> usize override;
 };
 
 DAKTLIB_END_NAMESPACE_ZIP

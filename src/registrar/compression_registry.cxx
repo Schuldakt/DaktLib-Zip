@@ -12,19 +12,23 @@
 
 DAKTLIB_BEGIN_NAMESPACE_ZIP
 
+auto CompressionRegistry::instance() -> CompressionRegistry& {
+  static CompressionRegistry reg;
+  return reg;
+}
+
+auto CompressionRegistry::get(CompressionMethod method) -> ICompressor* {
+  dakt::string name_key{toString(method)};
+  auto         it = instance().m_modules.find(name_key);
+  if (it != instance().m_modules.end()) { return it->second.get(); }
+  return nullptr;
+}
+
 void CompressionRegistry::registerModule(dakt::unique_ptr<ICompressor> module) {
   if (module) {
     dakt::string name_key{module->name()};
     m_modules[dakt::move(name_key)] = dakt::move(module);
   }
-}
-
-auto CompressionRegistry::get(CompressionMethod name) -> ICompressor* {
-  static CompressionRegistry instance;
-  dakt::string               name_key{toString(name)};
-  auto                       it = instance.m_modules.find(name_key);
-  if (it != instance.m_modules.end()) { return it->second.get(); }
-  return nullptr;
 }
 
 DAKTLIB_END_NAMESPACE_ZIP

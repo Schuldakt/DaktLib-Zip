@@ -18,9 +18,13 @@ DAKTLIB_BEGIN_NAMESPACE_ZIP
 
 class Zlib : public ICompressor {
   public:
+    [[nodiscard]] auto name() const noexcept -> dakt::string_view override;
+
     [[nodiscard]] auto method() const noexcept -> CompressionMethod override;
 
     auto inflateChunk(dakt::span<const uint8t> compressedData, dakt::vector<uint8t>& outputBuffer) -> usize override;
+
+    auto deflateChunk(dakt::span<const uint8t> rawData, dakt::vector<uint8t>& outputBuffer) -> usize override;
 };
 
 DAKTLIB_END_NAMESPACE_ZIP

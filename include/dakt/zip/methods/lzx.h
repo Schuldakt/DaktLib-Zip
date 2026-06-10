@@ -128,7 +128,7 @@ template <usize MaxElements, usize MaxBits> class HuffmanTable {
 
 class Lzx : public ICompressor {
   public:
-    [[nodiscard]] auto name() const -> dakt::string_view override;
+    [[nodiscard]] auto name() const noexcept -> dakt::string_view override;
 
     [[nodiscard]] auto method() const noexcept -> CompressionMethod override;
 

@@ -10,10 +10,15 @@
 
 #include <zip/methods/lzx.h>
 #include <zip/methods/xmem.h>
+#include <zip/registrar/compression_registry.h>
 
 #include <cstring>
 
 DAKTLIB_BEGIN_NAMESPACE_ZIP
+
+auto XMem::name() const noexcept -> dakt::string_view {
+  return "XMem"; // Must match toString(CompressionMethod::Zstd) in detector.h
+}
 
 auto XMem::method() const noexcept -> CompressionMethod {
   return CompressionMethod::XMem;
@@ -94,6 +99,17 @@ auto XMem::inflateChunk(dakt::span<const uint8t> compressedData, dakt::vector<ui
   // Return exactly how many bytes we added to the buffer across all chunks
   return outputBuffer.size() - initial_size;
 }
+
+auto XMem::deflateChunk(dakt::span<const uint8t> /*rawData*/, dakt::vector<uint8t>& /*outputBuffer*/) -> usize {
+  // XMem encoding requires the full xmem encoder state machine.
+  // Stubbed until the P4K write path is needed.
+  return 0;
+}
+
+[[maybe_unused]] const bool s_xmem_registered = [] -> bool {
+  CompressionRegistry::instance().registerModule(dakt::make_unique<XMem>());
+  return true;
+}();
 
 DAKTLIB_END_NAMESPACE_ZIP
 

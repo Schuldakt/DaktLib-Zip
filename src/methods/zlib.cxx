@@ -9,13 +9,21 @@
 #include <config>
 
 #include <zip/methods/zlib.h>
+#include <zip/registrar/compression_registry.h>
 
+#include <iostream>
 #include <stdexcept>
+
+using namespace dakt;
 
 DAKTLIB_BEGIN_NAMESPACE_ZIP
 
+auto Zlib::name() const noexcept -> dakt::string_view {
+  return "Zlib"; // Must match toString(CompressionMethod::Zstd) in detector.h
+}
+
 auto Zlib::method() const noexcept -> CompressionMethod {
-  return CompressionMethod::Deflate;
+  return CompressionMethod::Zlib;
 }
 
 namespace {
@@ -349,82 +357,112 @@ auto decodeDynamicHuffman(BitReader& reader, vector<uint8t>& outputBuffer) -> bo
 
 auto Zlib::inflateChunk(dakt::span<const uint8t> compressedData, dakt::vector<uint8t>& outputBuffer) -> usize {
   if (compressedData.size() < 2) {
-    return 0; // Not enough data for Zlib header
+    cout << "[Zlib] fail: too small\n";
+    return 0;
   }
 
-  // Parse the 2-byte zlib header (RFC 1950)
   uint8t cmf = compressedData[0];
   uint8t flg = compressedData[1];
 
-  // Check header checksum (CMF * 256 + FLG must be a multiple of 31)
-  if (((cmf << 8) + flg) % 31 != 0) { return 0; }
+  cout << "[Zlib] CMF=0x" << hex << (int)cmf << " FLG=0x" << (int)flg << dec << "\n";
+  cout << "[Zlib] header check: " << (((cmf << 8) + flg) % 31) << " (expect 0)\n";
 
-  // Check Compression Method (CM) - Expected Deflate (8)
+  if (((cmf << 8) + flg) % 31 != 0) {
+    cout << "[Zlib] fail: header checksum\n";
+    return 0;
+  }
+
   uint8t cm = cmf & 0x0F;
-  if (cm != 8) { return 0; }
+  if (cm != 8) {
+    cout << "[Zlib] fail: cm=" << (int)cm << "\n";
+    return 0;
+  }
 
   bool  fdict       = (flg & 0x20) != 0;
   usize header_size = 2;
-
-  // If preset dictionary is present, the next 4 bytes are the dictionary ID
   if (fdict) {
-    if (compressedData.size() < 6) { return 0; }
-
+    if (compressedData.size() < 6) {
+      cout << "[Zlib] fail: fdict too small\n";
+      return 0;
+    }
     header_size += 4;
   }
 
-  // Isolate the actual deflate stream payload
+  const usize        bytes_before = outputBuffer.size();
   span<const uint8t> deflate_data = compressedData.subspan(header_size);
+
+  cout << "[Zlib] deflate payload size: " << deflate_data.size() << "\n";
 
   try {
     BitReader reader(deflate_data);
     bool      is_final = false;
+    int       block_n  = 0;
 
     while (!is_final) {
       is_final      = (reader.readBits(1) != 0U);
       uint32t btype = reader.readBits(2);
 
-      bool    ok    = false;
+      cout << "[Zlib] block " << block_n++ << ": is_final=" << is_final << " btype=" << btype << "\n";
+
+      bool ok = false;
       if (btype == 0) {
         ok = decodeUncompressedBlock(reader, outputBuffer);
       } else if (btype == 1) {
         ok = decodeFixedHuffman(reader, outputBuffer);
       } else if (btype == 2) {
         ok = decodeDynamicHuffman(reader, outputBuffer);
+      } else {
+        cout << "[Zlib] fail: reserved btype\n";
+        return 0;
       }
 
-      if (!ok) {
-        return 0; // Block decoding failed
-      }
+      cout << "[Zlib] block decode ok=" << ok << " output so far=" << outputBuffer.size() << "\n";
+      if (!ok) { return 0; }
     }
   } catch (const dakt::runtime_error& e) {
-    return 0;     // Safely catch out-of-bounds reads
+    cout << "[Zlib] fail: exception\n";
+    return 0;
   }
 
-  // Verify the 4-byte Adler-32 checksum at the very end of `compressedData`
   if (compressedData.size() < header_size + 4) {
-    return 0; // Not enough data for the checksum
+    cout << "[Zlib] fail: no room for adler checksum\n";
+    return 0;
   }
 
-  // Zlib stores the Adler-32 checksum in Big-Endian (Network Byte Order)
   uint32t expected_adler = (static_cast<uint32t>(compressedData[compressedData.size() - 4]) << 24)
                            | (static_cast<uint32t>(compressedData[compressedData.size() - 3]) << 16)
                            | (static_cast<uint32t>(compressedData[compressedData.size() - 2]) << 8)
                            | (static_cast<uint32t>(compressedData[compressedData.size() - 1]));
 
-  // Compute Adler-32 on our decompressed outputBuffer
   uint32t s1             = 1;
   uint32t s2             = 0;
-  for (uint8t byte : outputBuffer) {
-    s1 = (s1 + byte) % 65521;
-    s2 = (s2 + s1) % 65521;
+  for (usize i = bytes_before; i < outputBuffer.size(); ++i) {
+    uint8t byte = outputBuffer[i];
+    s1          = (s1 + byte) % 65521;
+    s2          = (s2 + s1) % 65521;
   }
   uint32t computed_adler = (s2 << 16) | s1;
 
-  // Warning: Checksum mismatch usually indicates subtle data corruption perfectly
-  // passing through the Huffman tree, or trailing garbage bits in the span
-  return static_cast<usize>(expected_adler == computed_adler);
+  cout << "[Zlib] adler expected=0x" << hex << expected_adler << " computed=0x" << computed_adler << dec << "\n";
+
+  if (expected_adler != computed_adler) {
+    cout << "[Zlib] fail: adler mismatch\n";
+    return 0;
+  }
+
+  return outputBuffer.size() - bytes_before;
 }
+
+auto Zlib::deflateChunk(dakt::span<const uint8t> /*rawData*/, dakt::vector<uint8t>& /*outputBuffer*/) -> usize {
+  // Zlib encoding requires the full zlib encoder state machine.
+  // Stubbed until the P4K write path is needed.
+  return 0;
+}
+
+[[maybe_unused]] const bool s_zlib_registered = [] -> bool {
+  CompressionRegistry::instance().registerModule(dakt::make_unique<Zlib>());
+  return true;
+}();
 
 DAKTLIB_END_NAMESPACE_ZIP
 
