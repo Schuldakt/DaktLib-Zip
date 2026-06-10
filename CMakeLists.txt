@@ -12,9 +12,7 @@ add_library(dakt::Zip ALIAS DaktLib-Zip)
 
 target_sources(DaktLib-Zip
     PRIVATE
-        src/interfaces/decompressor.cxx
-
-        src/methods/lz4lite.cxx
+        src/methods/lz4.cxx
         src/methods/lzx.cxx
         src/methods/store.cxx
         src/methods/xmem.cxx
@@ -29,7 +27,7 @@ target_sources(DaktLib-Zip
         BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include/dakt/zip
         FILES
             include/dakt/zip/compressor
-    
+
     PUBLIC
         FILE_SET headers
         TYPE HEADERS
@@ -37,9 +35,7 @@ target_sources(DaktLib-Zip
         FILES
             include/dakt/zip/capi/zip_exports.h
 
-            include/dakt/zip/interfaces/decompressor.h
-
-            include/dakt/zip/methods/lz4lite.h
+            include/dakt/zip/methods/lz4.h
             include/dakt/zip/methods/lzx.h
             include/dakt/zip/methods/store.h
             include/dakt/zip/methods/xmem.h
@@ -57,3 +53,4 @@ target_link_libraries(DaktLib-Zip PUBLIC
 set_target_properties(DaktLib-Zip PROPERTIES
     VERIFY_INTERFACE_HEADER_SETS ON
 )
+

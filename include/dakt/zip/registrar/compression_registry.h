@@ -24,9 +24,9 @@ class CompressionRegistry {
   public:
     CompressionRegistry() = default;
 
-    void               registerModule(dakt::unique_ptr<ICompressor> module);
+    void                      registerModule(dakt::unique_ptr<ICompressor> module);
 
-    [[nodiscard]] auto get(CompressionMethod name) const -> const ICompressor*;
+    [[nodiscard]] static auto get(CompressionMethod name) -> ICompressor*;
 
   private:
     dakt::unordered_map<dakt::string, dakt::unique_ptr<ICompressor>> m_modules;

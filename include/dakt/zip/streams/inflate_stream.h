@@ -58,7 +58,9 @@ class InflateStream {
         }
 
         // 2. Need more data: Read raw bytes from the underlying VFS stream
-        usize raw_read = m_source.read(m_source.context, m_compressed_buffer.data(), m_compressed_buffer.size());
+        usize raw_read = m_source.read(
+          m_source.context, reinterpret_cast<uint8t*>(m_compressed_buffer.data()), m_compressed_buffer.size()
+        );
 
         if (raw_read == 0) {
           m_eof = true;
@@ -68,7 +70,8 @@ class InflateStream {
         // 3. Push the chunk through your production Zstd algorithm
         m_inflated_buffer.clear();
         m_inflated_cursor = 0;
-        m_algorithm->inflateChunk(dakt::span<uint8t>(m_compressed_buffer.data(), raw_read), m_inflated_buffer);
+
+        m_algorithm->inflateChunk(dakt::span<const uint8t>(m_compressed_buffer.data(), raw_read), m_inflated_buffer);
       }
 
       return bytes_fulfilled;

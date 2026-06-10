@@ -19,14 +19,12 @@ DAKTLIB_BEGIN_NAMESPACE_ZIP
 
 class Zstd : public ICompressor {
   public:
-    [[nodiscard]] auto name() const -> dakt::string_view override { return "ZSTD"; }
-
     [[nodiscard]] auto method() const noexcept -> CompressionMethod override;
 
     auto inflateChunk(dakt::span<const uint8t> compressedData, dakt::vector<uint8t>& outputBuffer) -> usize override;
 };
 
-namespace Detail {
+namespace detail {
 
 // --- 1. Bitstream Reader ---
 // Zstd bitstreams are read backwards from the end of the sequence section.
@@ -94,7 +92,7 @@ auto parseFrameHeader(const uint8t*& src, const uint8t* srcEnd, ZstdFrameHeader&
 auto decodeCompressedBlock(const uint8t* src, usize blockSize, dakt::vector<uint8t>& output, HuffmanTree& hTree)
   -> bool;
 
-} // namespace Detail
+} // namespace detail
 
 DAKTLIB_END_NAMESPACE_ZIP
 

@@ -8,21 +8,22 @@
 
 #include <config>
 
-#include <compression_registry.h>
+#include <zip/registrar/compression_registry.h>
 
 DAKTLIB_BEGIN_NAMESPACE_ZIP
 
-void CompressionRegistry::register_module(std::unique_ptr<ICompressor> module) {
+void CompressionRegistry::registerModule(dakt::unique_ptr<ICompressor> module) {
   if (module) {
-    std::string name_key{module->name()};
-    m_modules[std::move(name_key)] = std::move(module);
+    dakt::string name_key{module->name()};
+    m_modules[dakt::move(name_key)] = dakt::move(module);
   }
 }
 
-const ICompressor* CompressionRegistry::get(std::string_view name) const {
-  std::string name_key{name};
-  auto        it = m_modules.find(name_key);
-  if (it != m_modules.end()) { return it->second.get(); }
+auto CompressionRegistry::get(CompressionMethod name) -> ICompressor* {
+  static CompressionRegistry instance;
+  dakt::string               name_key{toString(name)};
+  auto                       it = instance.m_modules.find(name_key);
+  if (it != instance.m_modules.end()) { return it->second.get(); }
   return nullptr;
 }
 

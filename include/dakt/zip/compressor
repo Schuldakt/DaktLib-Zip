@@ -7,6 +7,7 @@
 #define DAKTLIB_ZIP_COMPRESSOR_compressor
 
 #include <config>
+#include <utilities/detector.h>
 
 #include <cstdint>
 #include <span>
@@ -18,16 +19,6 @@
 #endif
 
 DAKTLIB_BEGIN_NAMESPACE_ZIP
-
-enum class CompressionMethod : uint16t {
-  Store   = 0,
-  Deflate = 8,
-  XMem    = 14,
-  Lzx     = 28,
-  Lz4Lite = 64,
-  Zstd    = 93,
-  Unknown = 0xFFFF
-};
 
 // Represents a specific algorithm (Zstd, LZ4, Deflate)
 class ICompressor {

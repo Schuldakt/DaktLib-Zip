@@ -15,15 +15,32 @@
 
 #ifdef __cplusplus
 extern "C"
-{
+{ // NOLINTBEGIN(modernize-use-trailing-return-type)
 #endif
 
-  DAKTLIB_API auto zipCreateCompressionStream(DataStream* inStream, int compressionType, DataStream* outStream) {
+  DAKTLIB_API int zipCreateCompressionStream(DataStream* inStream, int compressionType, DataStream* outStream) {
     if ((inStream == nullptr) || (outStream == nullptr)) { return -1; }
+
+    // Safely cast the raw C integer to your modern enum
+    auto method = static_cast<dakt::zip::CompressionMethod>(compressionType);
+
+    // Fetch from registry using the strongly-type enum
+    auto* algo  = dakt::zip::CompressionRegistry::get(method);
+    if (algo == nullptr) {
+      return -2; // Unsupported compression method
+    }
+
+                 // Create the lens using the found algorithm
+    auto lens  = dakt::make_unique<dakt::zip::InflateStream>(*inStream, algo);
+
+    // Wrap it back into the universal C-API stream struct
+    *outStream = dakt::capi::makeCStream(dakt::move(lens));
+
+    return 0;
   }
 
 #ifdef __cplusplus
 } // extern "C"
-#endif
+#endif // NOLINTEND(modernize-use-trailing-return-type)
 
 #endif // DAKTLIB_CAPI_ZIP_EXPORTS_CXX
