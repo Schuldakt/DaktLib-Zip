@@ -43,7 +43,7 @@ enum class CompressionMethod : uint16t {
 [[nodiscard]] inline auto detectMethod(dakt::span<const uint8t> magicBytes) noexcept -> CompressionMethod {
   if (magicBytes.size() >= 4) {
     // Zstandard: FD 2F B5 28
-    if (magicBytes[0] == 0xFD && magicBytes[1] == 0x2F && magicBytes[2] == 0xB5 && magicBytes[3] == 0x28) {
+    if (magicBytes[0] == 0x28 && magicBytes[1] == 0xB5 && magicBytes[2] == 0x2F && magicBytes[3] == 0xFD) {
       return CompressionMethod::Zstd;
     }
     // LZ4 Frame: 04 22 4D 18

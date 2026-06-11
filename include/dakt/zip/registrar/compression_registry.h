@@ -8,7 +8,7 @@
 
 #include <config>
 
-#include <compressor>
+#include <zip/utilities/compressor.h>
 
 #include <memory>
 #include <string>

@@ -101,8 +101,8 @@ class DeflateHuffmanTree {
   public:
     // Build the tree given an array of code lengths for each symbol
     auto build(const vector<uint8t>& codeLengths) -> bool {
-      vector<uint16t> bl_count(MAX_BITS + 1, 0);
-      vector<uint16t> next_code(MAX_BITS + 1, 0);
+      vector<uint16t> bl_count(max_bits + 1, 0);
+      vector<uint16t> next_code(max_bits + 1, 0);
 
       for (uint8t len : codeLengths) {
         if (len > 0) { bl_count[len]++; }
@@ -110,12 +110,12 @@ class DeflateHuffmanTree {
 
       uint16t code = 0;
       bl_count[0]  = 0;
-      for (usize bits = 1; bits <= MAX_BITS; bits++) {
+      for (usize bits = 1; bits <= max_bits; bits++) {
         code            = (code + bl_count[bits - 1]) << 1;
         next_code[bits] = code;
       }
 
-      m_tree.assign(1 << MAX_BITS, 0xFFFF);
+      m_tree.assign(1 << max_bits, 0xFFFF);
       m_lengths = codeLengths;
 
       for (usize n = 0; n < codeLengths.size(); n++) {
@@ -124,7 +124,7 @@ class DeflateHuffmanTree {
           uint16t c         = next_code[len]++;
           // Reverse the bits of the code for lookup (Deflate reads LSB first)
           uint16t rev_c     = reverseBits(c, len);
-          int     fill_bits = MAX_BITS - len;
+          int     fill_bits = max_bits - len;
           for (int j = 0; j < (1 << fill_bits); j++) { m_tree[rev_c | (j << len)] = static_cast<uint16t>(n); }
         }
       }
@@ -134,7 +134,7 @@ class DeflateHuffmanTree {
     // Decodes a single symbol using the BitReader
     auto decode(BitReader& reader) const -> uint32t {
       // Peek up to MAX_BITS bits
-      uint32t bits   = reader.peekBits(MAX_BITS);
+      uint32t bits   = reader.peekBits(max_bits);
       uint16t symbol = m_tree[bits];
       if (symbol == 0xFFFF) {
         return 0xFFFF; // Error
@@ -145,7 +145,7 @@ class DeflateHuffmanTree {
     }
 
   private:
-    static constexpr int MAX_BITS = 15;
+    static constexpr int max_bits = 15;
     vector<uint16t>      m_tree;
     vector<uint8t>       m_lengths;
 

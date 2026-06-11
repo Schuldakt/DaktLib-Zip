@@ -44,7 +44,13 @@ target_sources(DaktLib-Zip
             include/dakt/zip/methods/zlib.h
             include/dakt/zip/methods/zstd.h
 
+            include/dakt/zip/streams/inflate_stream.h
+
             include/dakt/zip/registrar/compression_registry.h
+
+            include/dakt/zip/utilities/bit_stream.h
+            include/dakt/zip/utilities/compressor.h
+            include/dakt/zip/utilities/detector.h
 )
 
 target_link_libraries(DaktLib-Zip PUBLIC

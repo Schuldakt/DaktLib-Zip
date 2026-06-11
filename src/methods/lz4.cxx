@@ -143,11 +143,11 @@ auto Lz4::deflateChunk(dakt::span<const uint8t> rawData, dakt::vector<uint8t>& o
 
   const uint8t*   src         = rawData.data();
   const uint8t*   src_end     = src + rawData.size();
-  constexpr usize MAX_LIT_RUN = 0xFF + 15; // 270 bytes per run before another token is needed
+  constexpr usize max_lit_run = 0xFF + 15; // 270 bytes per run before another token is needed
 
   while (src < src_end) {
     auto run                  = static_cast<usize>(src_end - src);
-    run                       = dakt::min(run, MAX_LIT_RUN);
+    run                       = dakt::min(run, max_lit_run);
 
     // ------------------------------------------------------------------
     // Emit token + extended literal length

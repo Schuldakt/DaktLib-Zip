@@ -7,7 +7,7 @@
 #define DAKTLIB_STREAMS_INFLATE_STREAM_H
 
 #include <capi/stream.h>
-#include <compressor>
+#include <zip/utilities/compressor.h>
 
 #include <algorithm>
 #include <cstring>

@@ -8,7 +8,7 @@
 
 #include <config>
 
-#include <compressor>
+#include <zip/utilities/compressor.h>
 
 #ifndef DAKTLIB_HAS_NO_PRAGMA_SYSTEM_HEADER
   #pragma GCC system_header

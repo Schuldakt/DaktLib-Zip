@@ -6,37 +6,19 @@
 #ifndef DAKTLIB_ZIP_COMPRESSOR_compressor
 #define DAKTLIB_ZIP_COMPRESSOR_compressor
 
-#include <config>
-#include <utilities/detector.h>
-
-#include <cstdint>
-#include <span>
-#include <string_view>
-#include <vector>
+#include <zip/methods/lz4.h>
+#include <zip/methods/lzx.h>
+#include <zip/methods/store.h>
+#include <zip/methods/xmem.h>
+#include <zip/methods/zlib.h>
+#include <zip/methods/zstd.h>
+#include <zip/registrar/compression_registry.h>
+#include <zip/utilities/bit_stream.h>
+#include <zip/utilities/compressor.h>
+#include <zip/utilities/detector.h>
 
 #ifndef DAKTLIB_HAS_NO_PRAGMA_SYSTEM_HEADER
   #pragma GCC system_header
 #endif
-
-DAKTLIB_BEGIN_NAMESPACE_ZIP
-
-// Represents a specific algorithm (Zstd, LZ4, Deflate)
-class ICompressor {
-  public:
-    virtual ~ICompressor()                                                  = default;
-
-    [[nodiscard]] virtual auto name() const -> dakt::string_view            = 0;
-
-    [[nodiscard]] virtual auto method() const noexcept -> CompressionMethod = 0;
-
-    // Inflates a compressed chunk into the destination buffer.
-    // Returns the number of bytes successfully decompressed.
-    virtual auto inflateChunk(dakt::span<const uint8t> compressedData, dakt::vector<uint8t>& outputBuffer) -> usize = 0;
-
-    // Optional: Deflate (for packing assets back into the archive later)
-    virtual auto deflateChunk(dakt::span<const uint8t> rawData, dakt::vector<uint8t>& outputBuffer) -> usize        = 0;
-};
-
-DAKTLIB_END_NAMESPACE_ZIP
 
 #endif // DAKTLIB_ZIP_COMPRESSOR_compressor

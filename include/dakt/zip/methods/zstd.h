@@ -8,8 +8,8 @@
 
 #include <config>
 
-#include <compressor>
 #include <zip/registrar/compression_registry.h>
+#include <zip/utilities/compressor.h>
 
 #ifndef DAKTLIB_HAS_NO_PRAGMA_SYSTEM_HEADER
   #pragma GCC system_header
@@ -26,6 +26,12 @@ class Zstd : public ICompressor {
     auto inflateChunk(dakt::span<const uint8t> compressedData, dakt::vector<uint8t>& outputBuffer) -> usize override;
 
     auto deflateChunk(dakt::span<const uint8t> rawData, dakt::vector<uint8t>& outputBuffer) -> usize override;
+
+    // Raw path — skips magic validation entirely. Use when the caller has
+    // already identified the stream as Zstd via an external mechanism
+    // (e.g. P4K central directory method field) and the magic may be
+    // absent, stripped, or non-standard.
+    auto inflateChunkRaw(dakt::span<const uint8t> compressedData, dakt::vector<uint8t>& outputBuffer) -> usize;
 };
 
 namespace detail {

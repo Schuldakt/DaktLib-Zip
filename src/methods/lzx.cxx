@@ -27,7 +27,8 @@ readTreeLengths(detail::BitReader& reader, detail::HuffmanTable<20, 16>& preTree
     }
 
     if (symbol <= 16) {
-      targetLengths[i++] = static_cast<uint8t>((targetLengths[i] + 17 - symbol) % 17);
+      uint8t prev        = (i > 0) ? targetLengths[i - 1] : 0;
+      targetLengths[i++] = static_cast<uint8t>((prev + 17 - symbol) % 17);
     } else if (symbol == 17) {
       usize run = 4 + reader.readBits(4);
       while (run-- > 0 && i < targetLengths.size()) { targetLengths[i++] = 0; }
@@ -46,7 +47,7 @@ readTreeLengths(detail::BitReader& reader, detail::HuffmanTable<20, 16>& preTree
 }
 
 auto Lzx::name() const noexcept -> dakt::string_view {
-  return "Lzx"; // Must match toString(CompressionMethod::Zstd) in detector.h
+  return "Lzx"; // Must match toString(CompressionMethod::Lzx) in detector.h
 }
 
 auto Lzx::method() const noexcept -> CompressionMethod {
@@ -73,10 +74,10 @@ auto Lzx::inflateChunk(dakt::span<const uint8t> compressedData, dakt::vector<uin
   detail::HuffmanTable<8, 16>   aligned_tree;
 
   // Extra bits required for position slots (0-50)
-  constexpr dakt::array<uint8t, 51>  EXTRA_BITS = {0,  0,  0,  0,  1,  1,  2,  2,  3,  3,  4,  4,  5,  5,  6,  6,  7,
+  constexpr dakt::array<uint8t, 51>  extra_bits = {0,  0,  0,  0,  1,  1,  2,  2,  3,  3,  4,  4,  5,  5,  6,  6,  7,
                                                    7,  8,  8,  9,  9,  10, 10, 11, 11, 12, 12, 13, 13, 14, 14, 15, 15,
                                                    16, 16, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17};
-  constexpr dakt::array<uint32t, 51> BASE_OFFSETS = {
+  constexpr dakt::array<uint32t, 51> base_offsets = {
    0,      1,      2,      3,       4,       6,       8,       12,      16,      24,      32,      48,     64,
    96,     128,    192,    256,     384,     512,     768,     1024,    1536,    2048,    3072,    4096,   6144,
    8192,   12288,  16384,  24576,   32768,   49152,   65536,   98304,   131072,  196608,  262144,  393216, 524288,
@@ -148,8 +149,8 @@ auto Lzx::inflateChunk(dakt::span<const uint8t> compressedData, dakt::vector<uin
             r2           = r0;
             r0           = match_offset;
           } else {
-            uint32t extra = *(EXTRA_BITS.data() + pos_slot);
-            match_offset  = *(BASE_OFFSETS.data() + pos_slot);
+            uint32t extra = *(extra_bits.data() + pos_slot);
+            match_offset  = *(base_offsets.data() + pos_slot);
 
             if (block_type == 2 && extra >= 3) { // Aligned Offset Mode
               match_offset   += reader.readBits(extra - 3) << 3;
@@ -173,6 +174,8 @@ auto Lzx::inflateChunk(dakt::span<const uint8t> compressedData, dakt::vector<uin
             return 0; // Invalid offset
           }
 
+          outputBuffer.reserve(outputBuffer.size() + match_len);
+          const usize match_base = outputBuffer.size() - match_offset;
           for (usize i = 0; i < match_len; ++i) {
             outputBuffer.push_back(outputBuffer[current_size - match_offset + i]);
           }

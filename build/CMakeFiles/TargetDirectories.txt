@@ -1,6 +1,0 @@
-C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/CMakeFiles/DaktLib-Zip.dir
-C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/CMakeFiles/edit_cache.dir
-C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/CMakeFiles/rebuild_cache.dir
-C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/CMakeFiles/DaktLib-Zip_verify_interface_header_sets.dir
-C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/CMakeFiles/all_verify_interface_header_sets.dir
-C:/Users/pratt/Desktop/Repos/DaktLib/DaktLib-Zip/build/CMakeFiles/all_verify_header_sets.dir

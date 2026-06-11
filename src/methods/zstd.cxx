@@ -11,7 +11,24 @@
 #include <zip/methods/zstd.h>
 #include <zip/registrar/compression_registry.h>
 
+#include <logger>
+
+using namespace dakt::log;
+
 DAKTLIB_BEGIN_NAMESPACE_ZIP
+
+namespace {
+
+constexpr ModuleLogger log{"DaktLib-Zip"}; // NOLINT(readability-identifier-naming)
+
+constexpr uint32t      zstd_magic               = 0xFD2FB528;
+constexpr uint32t      zstd_magic_skippable_min = 0x184D2A50;
+constexpr uint32t      zstd_magic_skippable_max = 0x184D2A5F;
+
+auto                   isZstdMagic(uint32t magic) -> bool {
+  return magic == zstd_magic || (magic >= zstd_magic_skippable_min && magic <= zstd_magic_skippable_max);
+}
+} // namespace
 
 // --- 1. Bitstream Reader ---
 namespace detail {
@@ -165,22 +182,22 @@ auto detail::FSETable::buildFromWeights(const uint8t* data, usize size) -> usize
 void FSETable::buildPredefined(int tableType) {
   dakt::vector<int16t> norm;
   if (tableType == 0) { // LL
-    static constexpr dakt::array<int16t, 36> LL_DEFAULT_WEIGHTS = {4, 3, 2, 2, 2, 2, 2, 2, 2,  2,  2,  2,
+    static constexpr dakt::array<int16t, 36> ll_default_weights = {4, 3, 2, 2, 2, 2, 2, 2, 2,  2,  2,  2,
                                                                    2, 1, 1, 1, 2, 2, 2, 2, 2,  2,  2,  2,
                                                                    2, 3, 2, 1, 1, 1, 1, 1, -1, -1, -1, -1};
-    norm.assign(dakt::begin(LL_DEFAULT_WEIGHTS), dakt::end(LL_DEFAULT_WEIGHTS));
+    norm.assign(dakt::begin(ll_default_weights), dakt::end(ll_default_weights));
     accuracy_log = 6;
   } else if (tableType == 1) { // OF
-    static constexpr dakt::array<int16t, 29> OF_DEFAULT_WEIGHTS = {1, 1, 1, 1, 1, 1, 2, 2, 2, 1,  1,  1,  1,  1, 1,
+    static constexpr dakt::array<int16t, 29> of_default_weights = {1, 1, 1, 1, 1, 1, 2, 2, 2, 1,  1,  1,  1,  1, 1,
                                                                    1, 1, 1, 1, 1, 1, 1, 1, 1, -1, -1, -1, -1, -1};
-    norm.assign(dakt::begin(OF_DEFAULT_WEIGHTS), dakt::end(OF_DEFAULT_WEIGHTS));
+    norm.assign(dakt::begin(of_default_weights), dakt::end(of_default_weights));
     accuracy_log = 5;
   } else if (tableType == 2) { // ML
-    static constexpr dakt::array<int16t, 53> ML_DEFAULT_WEIGHTS = {1, 4, 3, 2, 2,  2,  2,  2,  2,  1,  1, 1, 1, 1,
+    static constexpr dakt::array<int16t, 53> ml_default_weights = {1, 4, 3, 2, 2,  2,  2,  2,  2,  1,  1, 1, 1, 1,
                                                                    1, 1, 1, 1, 1,  1,  1,  1,  1,  1,  1, 1, 1, 1,
                                                                    1, 1, 1, 1, 1,  1,  1,  1,  1,  1,  1, 1, 1, 1,
                                                                    1, 1, 1, 1, -1, -1, -1, -1, -1, -1, -1};
-    norm.assign(dakt::begin(ML_DEFAULT_WEIGHTS), dakt::end(ML_DEFAULT_WEIGHTS));
+    norm.assign(dakt::begin(ml_default_weights), dakt::end(ml_default_weights));
     accuracy_log = 6;
   } else {
     return;
@@ -578,10 +595,29 @@ auto Zstd::method() const noexcept -> CompressionMethod {
   return CompressionMethod::Zstd;
 }
 
-// --- 4. Main Decompression Entry ---
 DAKTLIB_API inline auto Zstd::inflateChunk(dakt::span<const uint8t> compressedData, dakt::vector<uint8t>& outputBuffer)
   -> usize {
-  if (compressedData.empty()) { return 0; }
+  if (compressedData.size() < 4) { return 0; }
+
+  const uint32t magic = static_cast<uint32t>(compressedData[0])
+                        | (static_cast<uint32t>(compressedData[1]) << 8)
+                        | (static_cast<uint32t>(compressedData[2]) << 16)
+                        | (static_cast<uint32t>(compressedData[3]) << 24);
+
+  if (!isZstdMagic(magic)) {
+    // Don't hard-fail — the stream may have a custom or stripped magic.
+    // Log a warning and attempt decode anyway; the frame header parse
+    // will catch genuinely malformed data shortly after.
+    log.warning("Unexpected magic 0x{:08X} — expected 0xFD2FB528. Attempting decode anyway.", magic);
+  }
+
+  return inflateChunkRaw(compressedData, outputBuffer);
+}
+
+// --- 4. Main Decompression Entry ---
+DAKTLIB_API inline auto
+Zstd::inflateChunkRaw(dakt::span<const uint8t> compressedData, dakt::vector<uint8t>& outputBuffer) -> usize {
+  if (compressedData.size() < 4) { return 0; }
 
   const uint8t* src     = compressedData.data();
   const uint8t* src_end = src + compressedData.size();
