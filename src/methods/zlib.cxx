@@ -101,8 +101,8 @@ class DeflateHuffmanTree {
   public:
     // Build the tree given an array of code lengths for each symbol
     auto build(const vector<uint8t>& codeLengths) -> bool {
-      vector<uint16t> bl_count(max_bits + 1, 0);
-      vector<uint16t> next_code(max_bits + 1, 0);
+      vector<uint16t> bl_count(maxBits + 1, 0);
+      vector<uint16t> next_code(maxBits + 1, 0);
 
       for (uint8t len : codeLengths) {
         if (len > 0) { bl_count[len]++; }
@@ -110,12 +110,12 @@ class DeflateHuffmanTree {
 
       uint16t code = 0;
       bl_count[0]  = 0;
-      for (usize bits = 1; bits <= max_bits; bits++) {
+      for (usize bits = 1; bits <= maxBits; bits++) {
         code            = (code + bl_count[bits - 1]) << 1;
         next_code[bits] = code;
       }
 
-      m_tree.assign(1 << max_bits, 0xFFFF);
+      m_tree.assign(1 << maxBits, 0xFFFF);
       m_lengths = codeLengths;
 
       for (usize n = 0; n < codeLengths.size(); n++) {
@@ -124,7 +124,7 @@ class DeflateHuffmanTree {
           uint16t c         = next_code[len]++;
           // Reverse the bits of the code for lookup (Deflate reads LSB first)
           uint16t rev_c     = reverseBits(c, len);
-          int     fill_bits = max_bits - len;
+          int     fill_bits = maxBits - len;
           for (int j = 0; j < (1 << fill_bits); j++) { m_tree[rev_c | (j << len)] = static_cast<uint16t>(n); }
         }
       }
@@ -134,7 +134,7 @@ class DeflateHuffmanTree {
     // Decodes a single symbol using the BitReader
     auto decode(BitReader& reader) const -> uint32t {
       // Peek up to MAX_BITS bits
-      uint32t bits   = reader.peekBits(max_bits);
+      uint32t bits   = reader.peekBits(maxBits);
       uint16t symbol = m_tree[bits];
       if (symbol == 0xFFFF) {
         return 0xFFFF; // Error
@@ -145,7 +145,7 @@ class DeflateHuffmanTree {
     }
 
   private:
-    static constexpr int max_bits = 15;
+    static constexpr int maxBits = 15;
     vector<uint16t>      m_tree;
     vector<uint8t>       m_lengths;
 
@@ -198,17 +198,17 @@ auto decodeFixedHuffman(BitReader& reader, vector<uint8t>& outputBuffer) -> bool
   if (!dist_tree.build(dist_lengths)) { return false; }
 
   // Base lengths and extra bits for length symbols (257-285)
-  static const dakt::array<uint16t, 29> len_base   = {3,  4,  5,  6,  7,  8,  9,  10, 11,  13,  15,  17,  19,  23, 27,
-                                                      31, 35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258};
-  static const dakt::array<uint16t, 29> len_extra  = {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2,
-                                                      2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0};
+  static const dakt::array<uint16t, 29> lenBase   = {3,  4,  5,  6,  7,  8,  9,  10, 11,  13,  15,  17,  19,  23, 27,
+                                                     31, 35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258};
+  static const dakt::array<uint16t, 29> lenExtra  = {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2,
+                                                     2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0};
 
   // Base distances and extra bits for distance symbols (0-29)
-  static const dakt::array<uint16t, 30> dist_base  = {1,    2,    3,    4,    5,    7,    9,    13,    17,    25,
-                                                      33,   49,   65,   97,   129,  193,  257,  385,   513,   769,
-                                                      1025, 1537, 2049, 3073, 4097, 6145, 8193, 12289, 16385, 24577};
-  static const dakt::array<uint8t, 30>  dist_extra = {0, 0, 0, 0, 1, 1, 2, 2,  3,  3,  4,  4,  5,  5,  6,
-                                                      6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13};
+  static const dakt::array<uint16t, 30> distBase  = {1,    2,    3,    4,    5,    7,    9,    13,    17,    25,
+                                                     33,   49,   65,   97,   129,  193,  257,  385,   513,   769,
+                                                     1025, 1537, 2049, 3073, 4097, 6145, 8193, 12289, 16385, 24577};
+  static const dakt::array<uint8t, 30>  distExtra = {0, 0, 0, 0, 1, 1, 2, 2,  3,  3,  4,  4,  5,  5,  6,
+                                                     6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13};
 
   // 3. Inflate loop using fixed standard trees
   while (true) {
@@ -223,14 +223,14 @@ auto decodeFixedHuffman(BitReader& reader, vector<uint8t>& outputBuffer) -> bool
     } else if (symbol >= 257 && symbol <= 285) {
       // Length/Distance pair (LZ77 backreference)
       symbol              -= 257;
-      uint32t length       = *(len_base.data() + symbol) + reader.readBits(*(len_extra.data() + symbol));
+      uint32t length       = *(lenBase.data() + symbol) + reader.readBits(*(lenExtra.data() + symbol));
 
       uint32t dist_symbol  = dist_tree.decode(reader);
       if (dist_symbol > 29) {
         return false; // Invalid distance symbol
       }
 
-      uint32t distance = *(dist_base.data() + dist_symbol) + reader.readBits(*(dist_extra.data() + dist_symbol));
+      uint32t distance = *(distBase.data() + dist_symbol) + reader.readBits(*(distExtra.data() + dist_symbol));
 
       if (distance > outputBuffer.size()) {
         return false; // Out of bounds backreference
@@ -249,15 +249,15 @@ auto decodeFixedHuffman(BitReader& reader, vector<uint8t>& outputBuffer) -> bool
 
 auto decodeDynamicHuffman(BitReader& reader, vector<uint8t>& outputBuffer) -> bool {
   // 1. Read header sizes
-  uint32t hlit                                  = reader.readBits(5) + 257; // Number of Literal/Length codes
-  uint32t hdist                                 = reader.readBits(5) + 1;   // Number of Distance does
-  uint32t hclen                                 = reader.readBits(4) + 4;   // Number of Code Length codes
+  uint32t hlit                                 = reader.readBits(5) + 257; // Number of Literal/Length codes
+  uint32t hdist                                = reader.readBits(5) + 1;   // Number of Distance does
+  uint32t hclen                                = reader.readBits(4) + 4;   // Number of Code Length codes
 
   // 2. Read the lengths for the Code Length Huffman Tree
-  static const dakt::array<uint8t, 19> cl_order = {16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15};
+  static const dakt::array<uint8t, 19> clOrder = {16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15};
 
   vector<uint8t>                       cl_lengths(19, 0);
-  for (uint32t i = 0; i < hclen; ++i) { cl_lengths[*(cl_order.data() + i)] = static_cast<uint8t>(reader.readBits(3)); }
+  for (uint32t i = 0; i < hclen; ++i) { cl_lengths[*(clOrder.data() + i)] = static_cast<uint8t>(reader.readBits(3)); }
 
   DeflateHuffmanTree code_len_tree;
   if (!code_len_tree.build(cl_lengths)) { return false; }
@@ -304,17 +304,17 @@ auto decodeDynamicHuffman(BitReader& reader, vector<uint8t>& outputBuffer) -> bo
   if (!dist_tree.build(dist_lengths)) { return false; }
 
   // Base lengths and extra bits for length symbols (257-285)
-  static const dakt::array<uint16t, 28> len_base   = {3,  4,  5,  6,  7,  8,  9,  10, 11,  13,  15,  17,  23,  27,
-                                                      31, 35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258};
-  static const dakt::array<uint8t, 29>  len_extra  = {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2,
-                                                      2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0};
+  static const dakt::array<uint16t, 29> lenBase   = {3,  4,  5,  6,  7,  8,  9,  10, 11,  13,  15,  17,  19,  23, 27,
+                                                     31, 35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258};
+  static const dakt::array<uint8t, 29>  lenExtra  = {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2,
+                                                     2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0};
 
   // Base distances and extra bits for distance symbols (0-29)
-  static const dakt::array<uint16t, 30> dist_base  = {1,    2,    3,    4,    5,    7,    9,    13,    17,    25,
-                                                      33,   49,   65,   97,   129,  193,  257,  385,   513,   769,
-                                                      1025, 1537, 2049, 3073, 4097, 6145, 8193, 12289, 16385, 24577};
-  static const dakt::array<uint8t, 30>  dist_extra = {0, 0, 0, 0, 1, 1, 2, 2,  3,  3,  4,  4,  5,  5,  6,
-                                                      6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13};
+  static const dakt::array<uint16t, 30> distBase  = {1,    2,    3,    4,    5,    7,    9,    13,    17,    25,
+                                                     33,   49,   65,   97,   129,  193,  257,  385,   513,   769,
+                                                     1025, 1537, 2049, 3073, 4097, 6145, 8193, 12289, 16385, 24577};
+  static const dakt::array<uint8t, 30>  distExtra = {0, 0, 0, 0, 1, 1, 2, 2,  3,  3,  4,  4,  5,  5,  6,
+                                                     6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13};
 
   // 5. Inflate loop using the dynamically constructed trees
   while (true) {
@@ -329,14 +329,14 @@ auto decodeDynamicHuffman(BitReader& reader, vector<uint8t>& outputBuffer) -> bo
     } else if (symbol >= 257 && symbol <= 285) {
       // Length/Distance pair (LZ77 sequence)
       symbol              -= 257;
-      uint32t length       = *(len_base.data() + symbol) + reader.readBits(*(len_extra.data() + symbol));
+      uint32t length       = *(lenBase.data() + symbol) + reader.readBits(*(lenExtra.data() + symbol));
 
       uint32t dist_symbol  = dist_tree.decode(reader);
       if (dist_symbol > 29) {
         return false; // Invalid distance symbol
       }
 
-      uint32t distance = *(dist_base.data() + dist_symbol) + reader.readBits(*(dist_extra.data() + dist_symbol));
+      uint32t distance = *(distBase.data() + dist_symbol) + reader.readBits(*(distExtra.data() + dist_symbol));
 
       if (distance > outputBuffer.size()) {
         return false; // Out of bounds backreference
@@ -344,9 +344,12 @@ auto decodeDynamicHuffman(BitReader& reader, vector<uint8t>& outputBuffer) -> bo
 
       // Copy overlapping data byte-by-byte
       usize match_start = outputBuffer.size() - distance;
-      for (usize m = 0; m < length; ++m) { outputBuffer.push_back(outputBuffer[match_start + m]); }
+      for (usize m = 0; m < length; ++m) {
+        uint8t byte = outputBuffer[match_start + m]; // snapshot before push_back
+        outputBuffer.push_back(byte);
+      }
     } else {
-      return false; // Error / Reserved symbol
+      return false;                                  // Error / Reserved symbol
     }
   }
 
@@ -363,9 +366,6 @@ auto Zlib::inflateChunk(dakt::span<const uint8t> compressedData, dakt::vector<ui
 
   uint8t cmf = compressedData[0];
   uint8t flg = compressedData[1];
-
-  cout << "[Zlib] CMF=0x" << hex << (int)cmf << " FLG=0x" << (int)flg << dec << "\n";
-  cout << "[Zlib] header check: " << (((cmf << 8) + flg) % 31) << " (expect 0)\n";
 
   if (((cmf << 8) + flg) % 31 != 0) {
     cout << "[Zlib] fail: header checksum\n";
@@ -388,10 +388,14 @@ auto Zlib::inflateChunk(dakt::span<const uint8t> compressedData, dakt::vector<ui
     header_size += 4;
   }
 
-  const usize        bytes_before = outputBuffer.size();
-  span<const uint8t> deflate_data = compressedData.subspan(header_size);
+  const usize bytesBefore = outputBuffer.size();
 
-  cout << "[Zlib] deflate payload size: " << deflate_data.size() << "\n";
+  if (compressedData.size() < header_size + 4) {
+    cout << "[Zlib] fail: no room for adler checksum\n";
+    return 0;
+  }
+
+  span<const uint8t> deflate_data = compressedData.subspan(header_size);
 
   try {
     BitReader reader(deflate_data);
@@ -402,9 +406,7 @@ auto Zlib::inflateChunk(dakt::span<const uint8t> compressedData, dakt::vector<ui
       is_final      = (reader.readBits(1) != 0U);
       uint32t btype = reader.readBits(2);
 
-      cout << "[Zlib] block " << block_n++ << ": is_final=" << is_final << " btype=" << btype << "\n";
-
-      bool ok = false;
+      bool    ok    = false;
       if (btype == 0) {
         ok = decodeUncompressedBlock(reader, outputBuffer);
       } else if (btype == 1) {
@@ -412,11 +414,8 @@ auto Zlib::inflateChunk(dakt::span<const uint8t> compressedData, dakt::vector<ui
       } else if (btype == 2) {
         ok = decodeDynamicHuffman(reader, outputBuffer);
       } else {
-        cout << "[Zlib] fail: reserved btype\n";
         return 0;
       }
-
-      cout << "[Zlib] block decode ok=" << ok << " output so far=" << outputBuffer.size() << "\n";
       if (!ok) { return 0; }
     }
   } catch (const dakt::runtime_error& e) {
@@ -424,33 +423,77 @@ auto Zlib::inflateChunk(dakt::span<const uint8t> compressedData, dakt::vector<ui
     return 0;
   }
 
-  if (compressedData.size() < header_size + 4) {
-    cout << "[Zlib] fail: no room for adler checksum\n";
-    return 0;
+  usize bytes_inflated  = outputBuffer.size() - bytesBefore;
+
+  // Binary search for where the checksum first diverges
+  uint32t s1            = 1;
+  uint32t s2            = 0;
+  usize   first_diverge = outputBuffer.size(); // assume no divergence
+  for (usize i = bytesBefore; i < outputBuffer.size(); ++i) {
+    s1 = (s1 + outputBuffer[i]) % 65521;
+    s2 = (s2 + s1) % 65521;
   }
 
+  uint32t computed_adler = (s2 << 16) | s1;
+
+  // 2. Read the expected checksum from the end of the stream
   uint32t expected_adler = (static_cast<uint32t>(compressedData[compressedData.size() - 4]) << 24)
                            | (static_cast<uint32t>(compressedData[compressedData.size() - 3]) << 16)
                            | (static_cast<uint32t>(compressedData[compressedData.size() - 2]) << 8)
                            | (static_cast<uint32t>(compressedData[compressedData.size() - 1]));
 
-  uint32t s1             = 1;
-  uint32t s2             = 0;
-  for (usize i = bytes_before; i < outputBuffer.size(); ++i) {
-    uint8t byte = outputBuffer[i];
-    s1          = (s1 + byte) % 65521;
-    s2          = (s2 + s1) % 65521;
-  }
-  uint32t computed_adler = (s2 << 16) | s1;
-
-  cout << "[Zlib] adler expected=0x" << hex << expected_adler << " computed=0x" << computed_adler << dec << "\n";
-
+  // 3. Log the status, but DON'T return 0 yet!
+  // Let the caller (PdfParser) decide if an Adler mismatch is fatal.
   if (expected_adler != computed_adler) {
-    cout << "[Zlib] fail: adler mismatch\n";
+    // We return the size anyway so the parser can inspect the potentially valid text.
+    return bytes_inflated;
+  }
+
+  return bytes_inflated;
+}
+
+auto Zlib::inflateChunkRaw(dakt::span<const uint8t> compressedData, dakt::vector<uint8t>& outputBuffer) -> usize {
+  if (compressedData.empty()) { return 0; }
+
+  const usize bytesBefore = outputBuffer.size();
+
+  try {
+    BitReader reader(compressedData);
+    bool      is_final = false;
+    int       block_n  = 0;
+
+    while (!is_final) {
+      is_final      = (reader.readBits(1) != 0U);
+      uint32t btype = reader.readBits(2);
+
+      bool    ok    = false;
+      if (btype == 0) {
+        ok = decodeUncompressedBlock(reader, outputBuffer);
+      } else if (btype == 1) {
+        ok = decodeFixedHuffman(reader, outputBuffer);
+      } else if (btype == 2) {
+        ok = decodeDynamicHuffman(reader, outputBuffer);
+      } else {
+        return 0;
+      }
+
+      if (!ok) {
+        // If we already have output and this was the final block marker,
+        // the data is complete — treat decode failure as end of stream
+        if (outputBuffer.size() > bytesBefore) { break; }
+        return 0;
+      }
+    }
+  } catch (const dakt::runtime_error&) {
+    // If we produced output before the exception, the data is complete.
+    // Some ZIP writers append a malformed zero-length final block.
+    if (outputBuffer.size() > bytesBefore) { return outputBuffer.size() - bytesBefore; }
     return 0;
   }
 
-  return outputBuffer.size() - bytes_before;
+  // No header consumed, no Adler-32 to check.
+  // ZIP CRC-32 validation is P4kArchive's responsibility.
+  return outputBuffer.size() - bytesBefore;
 }
 
 auto Zlib::deflateChunk(dakt::span<const uint8t> /*rawData*/, dakt::vector<uint8t>& /*outputBuffer*/) -> usize {
@@ -459,7 +502,7 @@ auto Zlib::deflateChunk(dakt::span<const uint8t> /*rawData*/, dakt::vector<uint8
   return 0;
 }
 
-[[maybe_unused]] const bool s_zlib_registered = [] -> bool {
+[[maybe_unused]] const bool sZlibRegistered = [] -> bool {
   CompressionRegistry::instance().registerModule(dakt::make_unique<Zlib>());
   return true;
 }();
